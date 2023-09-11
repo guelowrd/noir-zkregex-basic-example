@@ -24,7 +24,7 @@ fn main(text_input: [Field; MSG_BYTES_NUMBER]) {
         // State 3 fulfilled if 
         // previous state is 2 and character input is "i"
         // or previous state is 3 and character input is "I" or "i"
-        states[(i + 1) + 3*STATES_NUM_ROWS] = (states[i + 2*STATES_NUM_ROWS] & ((text_input[i] == 105) as u1)) | (states[i + 2*STATES_NUM_ROWS] & ((text_input[i] == 105) as u1 | (text_input[i] == 73) as u1));
+        states[(i + 1) + 3*STATES_NUM_ROWS] = (states[i + 2*STATES_NUM_ROWS] & ((text_input[i] == 105) as u1)) | (states[i + 3*STATES_NUM_ROWS] & ((text_input[i] == 105) as u1 | (text_input[i] == 73) as u1));
         
         // State 4 fulfilled if 
         // previous state is 3 and character input is "r"
@@ -41,7 +41,13 @@ fn main(text_input: [Field; MSG_BYTES_NUMBER]) {
 }
 
 #[test]
-fn test_main() {
+fn test_main_plain() {
     let x: [Field; MSG_BYTES_NUMBER] = [78, 111, 105, 114, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    main(x);
+}
+
+#[test]
+fn test_main_with_repeat() {
+    let x: [Field; MSG_BYTES_NUMBER] = [78, 111, 105, 73, 73 ,105, 114, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     main(x);
 }
